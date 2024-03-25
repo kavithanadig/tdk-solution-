@@ -1,0 +1,20 @@
+**Schedule:**
+To ensure timely execution of the pipeline components, we will configure triggers using cron expressions. These expressions will specify the frequency and time of execution, considering the Central European Time (CET) zone. Below are the steps to configure the triggers and the corresponding cron expressions:
+
+1. **Data Ingestion and Processing:**
+   - Trigger Type: AWS Lambda
+   - Schedule: Cron Expression
+     - Expression: `30 22 * * ?`
+     - Description: This cron expression schedules the Lambda function to trigger daily at 22:30 UTC, equivalent to 23:30 CET during standard time (no daylight saving adjustment).
+
+2. **Updating Summary Tables:**
+   - Trigger Type: AWS Lambda
+   - Schedule: Cron Expression
+     - Expression: `0 2 * * ?`
+     - Description: This cron expression schedules the Lambda function to trigger daily at 02:00 UTC, equivalent to 03:00 AM CET during standard time (no daylight saving adjustment).
+
+3. **Scheduled Execution using Step Functions:**
+   - Trigger Type: AWS Step Functions
+   - Schedule: Not applicable (Triggered manually or via AWS SDK)
+   - Description: Orchestrate the entire workflow using AWS Step Functions, which can be triggered manually or via AWS SDK.
+

@@ -1,0 +1,45 @@
+**End-to-End Data Pipeline Design**
+
+**Objective:**
+Design and implement an end-to-end data pipeline leveraging AWS services to ingest, process, store, and analyze raw data for visualization purposes.
+
+**Pipeline Components:**
+
+1. **Data Ingestion and Processing:**
+   - Utilize AWS Lambda to trigger data ingestion process daily at 23:30 CET, fetching raw data and storing it in Amazon S3.
+   - Implement an AWS Glue ETL job to transform raw data stored in S3 into structured format, extracting essential fields like user IDs, request details, and status codes.
+
+2. **Storing Data in Oracle DB:**
+   - Post successful transformation by Glue ETL job, load processed data into Amazon RDS Oracle instance using Glue's JDBC connection for robust storage and management.
+
+3. **Updating Summary Tables:**
+   - Develop Lambda functions to compute vital Key Performance Indicators (KPIs):
+     - Count distinct users.
+     - Aggregate request counts per user.
+     - Calculate total successful requests by filtering status codes starting with "2".
+   - Execute Lambda functions post Glue ETL job completion to calculate KPIs and update summary tables in Oracle DB.
+
+4. **Integration with Visualization Tools:**
+   - Configure visualization tools to directly access KPIs stored in the Oracle database.
+   - Provide optimized queries or views within the Oracle database for efficient retrieval of KPIs:
+     - Number of users.
+     - Request counts per user.
+     - Total successful requests.
+
+5. **Scheduled Execution:**
+   - Orchestrate the entire workflow using AWS Step Functions, scheduled to trigger at 23:30 CET daily, ensuring completion before 03:00 AM CET.
+
+6. **Monitoring and Logging:**
+   - Implement CloudWatch Alarms to monitor Lambda functions, Glue jobs, and Step Functions for errors or delays.
+   - Enable comprehensive logging for Lambda functions, Glue jobs, and Step Functions to capture execution details and facilitate troubleshooting.
+
+7. **Security and Permissions:**
+   - Define fine-grained IAM roles with necessary permissions for Lambda functions, Glue jobs, Step Functions, and RDS access to ensure secure data handling.
+   - Enforce data encryption in transit and at rest across all services involved for stringent security measures.
+
+8. **Documentation and Automation:**
+   - Document pipeline setup comprehensively, encompassing configurations, IAM roles, and scheduled executions for clarity and future reference.
+   - Automate pipeline deployment and configuration using AWS CloudFormation for seamless reproducibility and scalability.
+
+**Conclusion:**
+Upon successful implementation, the end-to-end data pipeline will facilitate efficient data processing, storage, and analysis, empowering business stakeholders with timely and insightful KPIs for informed decision-making.
